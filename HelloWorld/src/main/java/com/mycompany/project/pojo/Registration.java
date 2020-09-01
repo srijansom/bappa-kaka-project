@@ -1,5 +1,5 @@
 package com.mycompany.project.pojo;
-// Generated 18 Jul, 2020 11:16:34 AM by Hibernate Tools 4.3.1
+// Generated 1 Sep, 2020 11:19:55 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -26,16 +26,18 @@ public class Registration  implements java.io.Serializable {
      private BigDecimal khoraki;
      private String isActive;
      private Date createdDatetime;
+     private int contractorLookupId;
 
     public Registration() {
     }
 
-    public Registration(int regId, String name, BigDecimal khoraki, String isActive, Date createdDatetime) {
+    public Registration(int regId, String name, BigDecimal khoraki, String isActive, Date createdDatetime, int contractorLookupId) {
        this.regId = regId;
        this.name = name;
        this.khoraki = khoraki;
        this.isActive = isActive;
        this.createdDatetime = createdDatetime;
+       this.contractorLookupId = contractorLookupId;
     }
    
      @Id 
@@ -88,6 +90,16 @@ public class Registration  implements java.io.Serializable {
     
     public void setCreatedDatetime(Date createdDatetime) {
         this.createdDatetime = createdDatetime;
+    }
+
+    
+    @Column(name="contractor_lookup_id", nullable=false)
+    public int getContractorLookupId() {
+        return this.contractorLookupId;
+    }
+    
+    public void setContractorLookupId(int contractorLookupId) {
+        this.contractorLookupId = contractorLookupId;
     }
 
 

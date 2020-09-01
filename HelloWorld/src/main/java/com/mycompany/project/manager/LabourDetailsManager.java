@@ -20,7 +20,7 @@ public interface LabourDetailsManager {
 
     public JSONArray getAllLabourDetailsBasedOnLabourRole(int parseInt);
 
-    public JSONArray getAllActiveLabourDetails();
+    public JSONArray getAllActiveLabourDetailsByContractorId(String contractorId);
 
     public JSONArray getAllLabourChargeDetails();
 
@@ -30,6 +30,8 @@ public interface LabourDetailsManager {
 
     public JSONObject addNewLabourCharge(String addLabourChargeName, String addLabourChargeRate);
 
-    public JSONObject submitDailyWageDetails(String labourId, String totalDepositAmount);
+    public JSONObject submitWageDetails(String labourId, String totalDepositAmount, String direction, String details);
+
+    public JSONArray getAllActiveContractorDetails();
 
 }

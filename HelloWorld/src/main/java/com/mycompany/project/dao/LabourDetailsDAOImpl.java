@@ -5,6 +5,7 @@
  */
 package com.mycompany.project.dao;
 
+import com.mycompany.project.pojo.ContractorLookup;
 import com.mycompany.project.pojo.LabourChargeLookup;
 import com.mycompany.project.pojo.LabourRoleLookup;
 import com.mycompany.project.pojo.LabourTransactionDetails;
@@ -158,7 +159,7 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnArr;
     }
 
-    public JSONArray getAllActiveLabourDetails() {
+    public JSONArray getAllActiveLabourDetailsByContractorId(String contractorId) {
         JSONArray returnArr = new JSONArray();
         Session session = null;
         try {
@@ -166,6 +167,7 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
             Criteria cr = session.createCriteria(Registration.class);
             cr.addOrder(Order.desc("regId"));
             cr.add(Restrictions.eq("isActive", "Y"));
+            cr.add(Restrictions.eq("contractorLookupId", Integer.parseInt(contractorId)));
             List<Registration> resultList = cr.list();
             for (Registration registration : resultList) {
                 try {
@@ -264,7 +266,7 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
-    public JSONObject submitDailyWageDetails(String labourId, String totalDepositAmount) {
+    public JSONObject submitWageDetails(String labourId, String totalDepositAmount, String direction, String details) {
         Session session = null;
         JSONObject returnObj = new JSONObject();
         boolean status = false;
@@ -273,13 +275,13 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
             labourTransactionDetails.setTransactionDateTime(new Date());
             labourTransactionDetails.setRegId(Integer.parseInt(labourId));
             labourTransactionDetails.setLabourTransactionAmount(new BigDecimal(totalDepositAmount));
-            labourTransactionDetails.setLabourTransactionDirection("Deposit");
-            labourTransactionDetails.setLabourTransactionDetails("Deposit on behalf of daily wage");
+            labourTransactionDetails.setLabourTransactionDirection(direction);
+            labourTransactionDetails.setLabourTransactionDetails(details);
             session = hibernateUtil.openSession();
             session.beginTransaction();
             session.save(labourTransactionDetails);
             session.getTransaction().commit();
-            status = updateKhorakiDeatils(labourId, totalDepositAmount);
+            status = updateKhorakiDeatils(labourId, totalDepositAmount, direction);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -291,17 +293,85 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
-    public boolean updateKhorakiDeatils(String labourId, String totalDepositAmount) {
+    public boolean updateKhorakiDeatils(String labourId, String totalDepositAmount, String direction) {
         boolean status = false;
         Session session = null;
         try {
-
+            session = hibernateUtil.openSession();
+            Registration regObj = getRegistrationDetailsByRegId(labourId);
+            if (regObj != null) {
+                if (direction != null && !direction.trim().equals("")) {
+                    if (direction.equalsIgnoreCase("Deposit")) {
+                        regObj.setKhoraki(regObj.getKhoraki().add(new BigDecimal(totalDepositAmount)));
+                        status = true;
+                    } else if (direction.equalsIgnoreCase("Withdraw")) {
+                        if (regObj.getKhoraki().compareTo(new BigDecimal(totalDepositAmount)) >= 0) {
+                            regObj.setKhoraki(regObj.getKhoraki().subtract(new BigDecimal(totalDepositAmount)));
+                            status = true;
+                        }
+                    }
+                }
+                session.update(regObj);
+                session.beginTransaction().commit();
+                status = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
         }
         return status;
+    }
+
+    public Registration getRegistrationDetailsByRegId(String labourId) {
+        Session session = null;
+        try {
+            session = hibernateUtil.openSession();
+            Criteria cr = session.createCriteria(Registration.class);
+            cr.add(Restrictions.eq("isActive", "Y"));
+            cr.add(Restrictions.eq("regId", Integer.parseInt(labourId)));
+            List<Registration> resultList = cr.list();
+            if (resultList != null && resultList.size() > 0) {
+                return resultList.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return null;
+    }
+
+    public JSONArray getAllActiveContractorDetails() {
+        JSONArray returnArr = new JSONArray();
+        Session session = null;
+        try {
+            session = hibernateUtil.openSession();
+            Criteria cr = session.createCriteria(ContractorLookup.class);
+            cr.add(Restrictions.eq("isActive", "Y"));
+            List<ContractorLookup> resultList = cr.list();
+            for (ContractorLookup contractorLookup : resultList) {
+                try {
+                    JSONObject tempObj = new JSONObject();
+                    tempObj.put("contractor_id", contractorLookup.getContractorLookupId());
+                    tempObj.put("contractor_name", contractorLookup.getContractorName());
+                    returnArr.add(tempObj);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnArr;
     }
 
 }

@@ -151,6 +151,3 @@ function addNewLabourCharge() {
         }
     });
 }
-
-
-//<i class="fa fa-floppy-o" aria-hidden="true"></i>

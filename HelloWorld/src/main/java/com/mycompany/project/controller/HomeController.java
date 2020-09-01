@@ -40,7 +40,7 @@ public class HomeController {
     public String loadHomePage(HttpServletRequest request, HttpServletResponse response) {
         return "labour_payment_details";
     }
-    
+
     @RequestMapping(value = "/LabourCharge", method = RequestMethod.GET)
     public String loadLabourChargeDetails(HttpServletRequest request, HttpServletResponse response) {
         return "labour_charge_details";
@@ -82,11 +82,11 @@ public class HomeController {
 
     }
 
-    @RequestMapping(value = "/getAllActiveLabourDetails", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/getAllActiveLabourDetailsByContractorId", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public String getAllActiveLabourDetails() {
-        JSONArray returnArray = labourDetailsManager.getAllActiveLabourDetails();
+    public String getAllActiveLabourDetailsByContractorId(@RequestParam String contractorId) {
+        JSONArray returnArray = labourDetailsManager.getAllActiveLabourDetailsByContractorId(contractorId);
         return returnArray.toString();
     }
 
@@ -97,15 +97,25 @@ public class HomeController {
         JSONArray returnArray = labourDetailsManager.getAllLabourChargeDetails();
         return returnArray.toString();
     }
-    
-    @RequestMapping(value = "/submitDailyWageDetails", method = RequestMethod.POST, produces = "application/json")
+
+    @RequestMapping(value = "/transactionDetails", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public String submitDailyWageDetails(
+    public String submitWageDetails(
             @RequestParam String labourId,
-            @RequestParam String totalDepositAmount
+            @RequestParam String totalAmount,
+            @RequestParam String direction,
+            @RequestParam String details
     ) {
-        JSONObject returnObj = labourDetailsManager.submitDailyWageDetails(labourId, totalDepositAmount);
+        JSONObject returnObj = labourDetailsManager.submitWageDetails(labourId, totalAmount, direction, details);
         return returnObj.toString();
+    }
+
+    @RequestMapping(value = "/getAllActiveContractorDetails", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String getAllActiveContractorDetails() {
+        JSONArray returnArray = labourDetailsManager.getAllActiveContractorDetails();
+        return returnArray.toString();
     }
 }

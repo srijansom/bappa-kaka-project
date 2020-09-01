@@ -33,9 +33,14 @@
         <jsp:include page="top-header.jsp"/>
         <jsp:include page="side-header.jsp"/>
 
-        <div class="" style="margin-top: 80px;margin-left: 80px;">
+        <div class="" style="margin-top: 45px;margin-left: 80px;">
+            
+            <div class="selectContractorDivClass" style="margin-top: 45px;text-align: center;">
+                <select id="selectContractorId" class="selectContractorClass" onchange="getAllActiveLabourDetailsByContractorId()">
+                </select>
+            </div>
             <div id="containerDivId" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                
+
             </div>
         </div>
     </body>

@@ -1,11 +1,13 @@
 package com.mycompany.project.pojo;
-// Generated 1 Sep, 2020 1:53:15 PM by Hibernate Tools 4.3.1
+// Generated 1 Sep, 2020 11:19:55 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,7 +23,7 @@ import javax.persistence.TemporalType;
 public class LabourTransactionDetails  implements java.io.Serializable {
 
 
-     private int labourTransactionDetailsId;
+     private Integer labourTransactionDetailsId;
      private BigDecimal labourTransactionAmount;
      private String labourTransactionDirection;
      private String labourTransactionDetails;
@@ -32,12 +34,10 @@ public class LabourTransactionDetails  implements java.io.Serializable {
     }
 
 	
-    public LabourTransactionDetails(int labourTransactionDetailsId, BigDecimal labourTransactionAmount) {
-        this.labourTransactionDetailsId = labourTransactionDetailsId;
+    public LabourTransactionDetails(BigDecimal labourTransactionAmount) {
         this.labourTransactionAmount = labourTransactionAmount;
     }
-    public LabourTransactionDetails(int labourTransactionDetailsId, BigDecimal labourTransactionAmount, String labourTransactionDirection, String labourTransactionDetails, Integer regId, Date transactionDateTime) {
-       this.labourTransactionDetailsId = labourTransactionDetailsId;
+    public LabourTransactionDetails(BigDecimal labourTransactionAmount, String labourTransactionDirection, String labourTransactionDetails, Integer regId, Date transactionDateTime) {
        this.labourTransactionAmount = labourTransactionAmount;
        this.labourTransactionDirection = labourTransactionDirection;
        this.labourTransactionDetails = labourTransactionDetails;
@@ -45,15 +45,15 @@ public class LabourTransactionDetails  implements java.io.Serializable {
        this.transactionDateTime = transactionDateTime;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="labour_transaction_details_id", unique=true, nullable=false)
-    public int getLabourTransactionDetailsId() {
+    public Integer getLabourTransactionDetailsId() {
         return this.labourTransactionDetailsId;
     }
     
-    public void setLabourTransactionDetailsId(int labourTransactionDetailsId) {
+    public void setLabourTransactionDetailsId(Integer labourTransactionDetailsId) {
         this.labourTransactionDetailsId = labourTransactionDetailsId;
     }
 

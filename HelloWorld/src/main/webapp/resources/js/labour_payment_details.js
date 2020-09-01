@@ -68,6 +68,12 @@ function getLabourRoleBasedOnWageType(dynamicWageDropDownId, dynamicLabourDropDo
     var wageTypeId = wageDropDown.options[wageDropDown.selectedIndex].value;
     if (wageTypeId != undefined && wageTypeId != null && wageTypeId == 2) {
         $('#dailyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).hide();
+        $('#monthlyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).show();
+    }
+    if (wageTypeId != undefined && wageTypeId != null && wageTypeId == 1) {
+        $('#monthlyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).hide();
+        $('#dailyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).show();
+        $("#dailyWageDivId" + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).css("display", "inherit");
     }
 //    alert(wageTypeId);
     $.ajax({
@@ -129,28 +135,47 @@ function getAllLabourDetailsBasedOnLabourRole() {
     });
 }
 function view(dynamicWageDropDownId, hiddenDiv) {
-    $("#" + hiddenDiv).css("visibility", "visible");
+    if ($("#" + hiddenDiv).css('visibility').toLowerCase() == 'visible') {
+        $("#" + hiddenDiv).css("visibility", "hidden");
+    } else if ($("#" + hiddenDiv).css('visibility').toLowerCase() == 'hidden') {
+        $("#" + hiddenDiv).css("visibility", "visible");
+    }
+//    $("#" + hiddenDiv).toggle();
+    $("#hiddenDivForWithdraw" + hiddenDiv.substring(hiddenDiv.length - 1, hiddenDiv.length)).toggle();
     getlabourWageType(dynamicWageDropDownId, hiddenDiv);
 }
-function getAllActiveLabourDetails() {
-//    alert();
+var globalContractorId;
+function getAllActiveLabourDetailsByContractorId() {
+    var contractorId = $("#selectContractorId option:selected").val();
+    globalContractorId = contractorId;
+    localStorage.setItem("globalContractorId", globalContractorId);
+//    alert(contractorId);
+//    return;
     $.ajax({
         type: "GET",
-        url: 'getAllActiveLabourDetails',
+        url: 'getAllActiveLabourDetailsByContractorId',
         cache: false,
         dataType: "json",
+        data: {
+            contractorId: contractorId
+        },
         success: function (data) {
+            $('#containerDivId').empty();
             $.each(data, function (index, value) {
                 var dynamic_div = "<div class='dyanmicLabourClass' id='dyanmicLabourID" + value.labour_id + "'>";
                 dynamic_div += '<span>Name : </span>&nbsp;'
-                dynamic_div += '<span onclick="view(' + "'" + "wageDropDownId" + value.labour_id + "'" + ',' + "'"
-                        + "hiddenDiv" + value.labour_id + "'" + ')"><b>' + value.labour_name + '</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                dynamic_div += '<span><b>' + value.labour_name + '</b>&nbsp;&nbsp;<i style="cursor: pointer;" class="fa fa-pencil-square-o" aria-hidden="true" onclick="view(' + "'" + "wageDropDownId" + value.labour_id + "'" + ',' + "'"
+                        + "hiddenDiv" + value.labour_id + "'" + ')"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 dynamic_div += '<span>Khoraki : </span>&nbsp;'
                 dynamic_div += '<span>&#8377;' + value.labour_khoraki + '</span><br><br>';
                 dynamic_div += "</div>";
-                var dynamic_hidden_div = '<div id="hiddenDiv' + value.labour_id + '" class="labouRoleAndWageSelectorClass" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>'
+                var dynamic_hidden_div = '<div id="hiddenDiv' + value.labour_id + '" class="labouRoleAndWageSelectorClass" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>';
 
-                var wageDropDown = '<select class="selectOptionBox cssDiv" id="wageDropDownId'
+                var dynamic_hidden_div_for_withdraw = '<div id="hiddenDivForWithdraw' + value.labour_id + '" class="hiddenDivForWithdrawClass" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><b>Withdraw : </b>'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class"cssDiv withDrawMoneyClass" id="withDrawMoneyId' + value.labour_id + '" type="number" value="0">'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="withDrawMoneyButton" onclick="withDrawMoney(' + value.labour_id + ')">Submit</button></div>';
+
+                var wageDropDown = '<b>Deposit :</b> <select class="selectOptionBox cssDiv" id="wageDropDownId'
                         + value.labour_id + '" onchange="getLabourRoleBasedOnWageType(' + "'" + "wageDropDownId" + value.labour_id + "'" + ','
                         + "'labourRoleDropDownId" + value.labour_id + "'" + ')">'
                         + '<option>--Select--</option>' +
@@ -167,23 +192,40 @@ function getAllActiveLabourDetails() {
                         + ' <option>--Select--</option>'
                         + '</select>'
                         + '</td><td><span id="labourChargeAmountSpanId' + value.labour_id + '"></span></td></tr></tbody></table>';
+
                 var dyanmicLabourID = "dyanmicLabourID" + value.labour_id;
                 var hiddenDivId = "hiddenDiv" + value.labour_id;
-                var dailyWageDiv = '<div class="dailyWageDivClass" id="dailyWageDivId' + value.labour_id + '"</div>';
+
                 $('#containerDivId').append(dynamic_div);
                 $('#' + dyanmicLabourID).append(dynamic_hidden_div);
+                $('#' + dyanmicLabourID).append(dynamic_hidden_div_for_withdraw);
                 $('#' + hiddenDivId).append(wageDropDown);
                 $('#' + hiddenDivId).append(labourRoleDropDown);
+
+
+                var dailyWageDiv = '<div class="dailyWageDivClass" id="dailyWageDivId' + value.labour_id + '"></div>';
                 $('#' + hiddenDivId).append(dailyWageDiv);
+
+                var monthlyWageDiv = '<div class="monthlyWageDivClass" id="monthlyWageDivId' + value.labour_id + '"></div>';
+                $('#' + hiddenDivId).append(monthlyWageDiv);
 
 
                 var dailyWageDivId = "dailyWageDivId" + value.labour_id;
                 $('#' + dailyWageDivId).append(labourChargeDetailsWithDropDown);
                 var dailyWageSubmitDiv = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                         + '<input class"cssDiv dailyWageSubmitDivClass" id="dailyWageSubmitDivId' + value.labour_id + '" type="number" value="0" onkeyup="calculateTotalDailyWage(' + value.labour_id + ')">'
-                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="submitDailyWageDetails(' + value.labour_id + ')">Submit</button>'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="wageDetailsSubmitButton" onclick="submitDailyWageDetails(' + value.labour_id + ')">Submit</button>'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="showTotalDepositAmountForDailyWageSpan' + value.labour_id + '"></span>';
                 $('#' + dailyWageDivId).append(dailyWageSubmitDiv);
+
+                var monthlyWageDivId = "monthlyWageDivId" + value.labour_id;
+//                $('#' + monthlyWageDivId).append(labourChargeDetailsWithDropDown);
+                var monthlyWageSubmitDiv = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                        + '<input class"cssDiv monthlyWageSubmitDivClass" id="monthlyWageSubmitDivId' + value.labour_id + '" type="number" value="0">'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="wageDetailsSubmitButton" onclick="submitMonthlyWageDetails(' + value.labour_id + ')">Submit</button>';
+                $('#' + monthlyWageDivId).append(monthlyWageSubmitDiv);
+
+
             });
         },
         error: function (data) {
@@ -192,6 +234,37 @@ function getAllActiveLabourDetails() {
     });
 }
 
+function withDrawMoney(dynamicId) {
+    var labourId = dynamicId;
+    var direction = "Withdraw";
+    var details = "Money has been withdrawed";
+    var withdrawAmount = document.getElementById("withDrawMoneyId" + dynamicId).value;
+    $.ajax({
+        type: "POST",
+        url: 'transactionDetails',
+        cache: false,
+        dataType: "json",
+        data: {
+            labourId: labourId,
+            totalAmount: withdrawAmount,
+            direction: direction,
+            details: details
+        },
+        success: function (data) {
+            if (data.status != undefined && data.status != null && data.status == true) {
+                swal({title: "Success", icon: "success", text: "Done"})
+                        .then(function () {
+                            location.reload();
+                        }
+                        );
+            }
+        },
+        error: function (data) {
+            console.log("Error Happen");
+        }
+    });
+
+}
 function calculateTotalDailyWage(dynamicId) {
     var dailyWageAmount = document.getElementById("dailyWageSubmitDivId" + dynamicId).value;
     var labourChargeDropDown = document.getElementById("labourChargeDetailsDropDownId" + dynamicId);
@@ -202,6 +275,38 @@ function calculateTotalDailyWage(dynamicId) {
     var rupeesSign = '\u20B9';
     document.getElementById("showTotalDepositAmountForDailyWageSpan" + dynamicId).innerHTML = "Total deposit amount : " + rupeesSign + totalDepositAmount;
 }
+function submitMonthlyWageDetails(dynamicId) {
+    var labourId = dynamicId;
+    var totalDepositAmount = document.getElementById("monthlyWageSubmitDivId" + dynamicId).value;
+    var labourRoleName = $("#labourRoleDropDownId" + dynamicId + " option:selected").html();
+    var direction = "Deposit";
+    var details = "Monthly wage for " + labourRoleName;
+//    alert(totalDepositAmount);
+    $.ajax({
+        type: "POST",
+        url: 'transactionDetails',
+        cache: false,
+        dataType: "json",
+        data: {
+            labourId: labourId,
+            totalAmount: totalDepositAmount,
+            direction: direction,
+            details: details
+        },
+        success: function (data) {
+            if (data.status != undefined && data.status != null && data.status == true) {
+                swal({title: "Success", icon: "success", text: "Done"})
+                        .then(function () {
+                            location.reload();
+                        }
+                        );
+            }
+        },
+        error: function (data) {
+            console.log("Error Happen");
+        }
+    });
+}
 function submitDailyWageDetails(dynamicId) {
     var labourId = dynamicId;
     var dailyWageAmount = document.getElementById("dailyWageSubmitDivId" + dynamicId).value;
@@ -210,27 +315,68 @@ function submitDailyWageDetails(dynamicId) {
     var labourChargeAmountObj = JSON.parse(localStorage.getItem("labourChargeAmountObj"));
     var rate = labourChargeAmountObj[labourChargeId] / 100;
     var totalDepositAmount = (dailyWageAmount / 1000) * rate;
-    alert(totalDepositAmount)
+    var direction = "Deposit";
+    var details = "daily wage details";
     $.ajax({
         type: "POST",
-        url: 'submitDailyWageDetails',
+        url: 'transactionDetails',
         cache: false,
         dataType: "json",
         data: {
             labourId: labourId,
-            totalDepositAmount: totalDepositAmount
+            totalAmount: totalDepositAmount,
+            direction: direction,
+            details: details
         },
         success: function (data) {
-
+            if (data.status != undefined && data.status != null && data.status == true) {
+                swal({title: "Success", icon: "success", text: "Done"})
+                        .then(function () {
+                            location.reload();
+                        }
+                        );
+            }
         },
         error: function (data) {
             console.log("Error Happen");
         }
     });
 }
+function getAllActiveContractorDetails() {
+//    alert();
+    $.ajax({
+        type: "GET",
+        url: 'getAllActiveContractorDetails',
+        cache: false,
+        dataType: "json",
+        success: function (data) {
 
+            $('#selectContractorId').find('option').remove();
+            var wageDropDown = document.getElementById("selectContractorId");
+            var option1 = document.createElement("option");
+            option1.text = "--Select--";
+            wageDropDown.add(option1);
+            $.each(data, function (index, value) {
+                var option = document.createElement("option");
+                option.text = value.contractor_name;
+                option.value = value.contractor_id;
+                wageDropDown.add(option);
+            });
+
+            if (localStorage.getItem("globalContractorId") != undefined && localStorage.getItem("globalContractorId") != null) {
+                globalContractorId = localStorage.getItem("globalContractorId");
+            } else {
+                globalContractorId = 0;
+            }
+            $("#selectContractorId").val(globalContractorId).change();
+        },
+        error: function (data) {
+            console.log("Error Happen");
+        }
+    });
+}
 $(document).ready(function () {
-    getAllActiveLabourDetails();
+    getAllActiveContractorDetails();
     $('.addNewLabour').show();
 
 

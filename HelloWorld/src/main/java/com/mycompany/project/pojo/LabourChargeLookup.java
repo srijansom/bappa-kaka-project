@@ -1,9 +1,11 @@
 package com.mycompany.project.pojo;
-// Generated 18 Jul, 2020 11:16:34 AM by Hibernate Tools 4.3.1
+// Generated 1 Sep, 2020 11:19:55 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 public class LabourChargeLookup  implements java.io.Serializable {
 
 
-     private int labourChargeLookupId;
+     private Integer labourChargeLookupId;
      private String labourChargeName;
      private int labourChargeAmount;
      private String isActive;
@@ -25,22 +27,21 @@ public class LabourChargeLookup  implements java.io.Serializable {
     public LabourChargeLookup() {
     }
 
-    public LabourChargeLookup(int labourChargeLookupId, String labourChargeName, int labourChargeAmount, String isActive) {
-       this.labourChargeLookupId = labourChargeLookupId;
+    public LabourChargeLookup(String labourChargeName, int labourChargeAmount, String isActive) {
        this.labourChargeName = labourChargeName;
        this.labourChargeAmount = labourChargeAmount;
        this.isActive = isActive;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="labour_charge_lookup_id", unique=true, nullable=false)
-    public int getLabourChargeLookupId() {
+    public Integer getLabourChargeLookupId() {
         return this.labourChargeLookupId;
     }
     
-    public void setLabourChargeLookupId(int labourChargeLookupId) {
+    public void setLabourChargeLookupId(Integer labourChargeLookupId) {
         this.labourChargeLookupId = labourChargeLookupId;
     }
 

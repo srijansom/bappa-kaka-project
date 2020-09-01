@@ -39,8 +39,8 @@ public class LabourDetailsManagerImpl implements LabourDetailsManager {
         return labourDetailsDAO.getAllLabourDetailsBasedOnLabourRole(labourRoleId);
     }
 
-    public JSONArray getAllActiveLabourDetails() {
-        return labourDetailsDAO.getAllActiveLabourDetails();
+    public JSONArray getAllActiveLabourDetailsByContractorId(String contractorId) {
+        return labourDetailsDAO.getAllActiveLabourDetailsByContractorId(contractorId);
     }
 
     public JSONArray getAllLabourChargeDetails() {
@@ -59,8 +59,12 @@ public class LabourDetailsManagerImpl implements LabourDetailsManager {
         return labourDetailsDAO.addNewLabourCharge(addLabourChargeName, addLabourChargeRate);
     }
 
-    public JSONObject submitDailyWageDetails(String labourId, String totalDepositAmount) {
-        return labourDetailsDAO.submitDailyWageDetails(labourId, totalDepositAmount);
+    public JSONObject submitWageDetails(String labourId, String totalDepositAmount, String direction, String details) {
+        return labourDetailsDAO.submitWageDetails(labourId, totalDepositAmount, direction, details);
+    }
+
+    public JSONArray getAllActiveContractorDetails() {
+        return labourDetailsDAO.getAllActiveContractorDetails();
     }
 
 }

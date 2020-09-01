@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17 Jun, 2020, 10:31:51 PM
+    Author     : srija
+*/
+
+.sidenav{
+    height: 100%;
+    width: 80px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #a490d5;
+    overflow-x: hidden;
+    padding-top: 50px;
+}
+.sidenav a{
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #a490d5;
+    display: block;
+}
+.sidenav a:hover{
+
+}
+@media screen and (max-height: 450px){
+    /*.sidenav*/
+}
+.block{
+    width: 100%;
+    background-color: #a490d5;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+}
+.block:hover{
+    background-color: #ddd;
+}

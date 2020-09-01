@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20 Jun, 2020, 11:11:04 AM
+    Author     : srija
+*/
+#datepickerDivId{
+    position: relative;
+    display: inline-flex;
+}
+
+.labouRoleAndWageSelectorClass{
+    position: relative;
+    display: inline-flex;
+    /*visibility: hidden;*/
+}
+
+.selectOptionBox{
+    margin-left: 50px;
+}
+
+.dyanmicLabourClass{
+    border-bottom-style: double;
+    border-bottom-color: black;
+    padding: 15px;
+    width: 100vw;
+}
+
+.cssDiv{
+    display: inline-block;
+    min-height: 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 300px;
+    min-width: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-right: 0px;
+    margin-left: 20px !important;
+}
+
+.dailyWageDivClass{
+    display:inherit;
+}

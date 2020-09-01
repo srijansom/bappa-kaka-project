@@ -1,0 +1,19 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17 Jun, 2020, 8:51:46 PM
+    Author     : srija
+*/
+.navbar {
+    overflow: hidden;
+    background-color: #553a99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    height: 50px;
+}

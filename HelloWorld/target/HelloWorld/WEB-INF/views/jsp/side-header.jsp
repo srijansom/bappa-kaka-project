@@ -21,6 +21,9 @@
             <div class="block addNewLabour" style="display: none">
                 <i class="fa fa-user-plus fa-3x"></i>
             </div>
+            <div class="block addNewContractor" style="display: none" data-toggle="modal" data-target="#addNewContractor">
+                <i class="fa fa-user-plus fa-3x"></i>
+            </div>
 <!--            <div class="block">
                 <i class="fa fa-refresh fa-3x"></i>
             </div>

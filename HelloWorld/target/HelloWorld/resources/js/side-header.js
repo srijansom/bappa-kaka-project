@@ -5,6 +5,7 @@
  */
 
 var LabourChargeTypePage = false;
+var ContractorDeatilsPage = false;
 $(document).ready(function(){
 //  console.log(LabourChargeTypePage);
 });

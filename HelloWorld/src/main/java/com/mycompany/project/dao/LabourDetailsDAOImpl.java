@@ -374,4 +374,53 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnArr;
     }
 
+    public JSONObject deleteContractorById(String contractorId) {
+        Session session = null;
+        JSONObject returnObj = new JSONObject();
+        boolean status = false;
+        try {
+            session = hibernateUtil.openSession();
+            Transaction tx = session.beginTransaction();
+            String hql = "update ContractorLookup contractorLookup set contractorLookup.isActive= 'N' "
+                    + "where contractorLookup.contractorLookupId= :contractorId";
+            session.createQuery(hql)
+                    .setInteger("contractorId", Integer.parseInt(contractorId))
+                    .executeUpdate();
+            tx.commit();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            returnObj.put("status", status);
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnObj;
+    }
+
+    public JSONObject addNewContractor(String contractorName) {
+        Session session = null;
+        JSONObject returnObj = new JSONObject();
+        boolean status = false;
+        try {
+            ContractorLookup contractorLookup = new ContractorLookup();
+            contractorLookup.setIsActive("Y");
+            contractorLookup.setContractorName(contractorName);
+            session = hibernateUtil.openSession();
+            session.beginTransaction();
+            session.save(contractorLookup);
+            session.getTransaction().commit();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            returnObj.put("status", status);
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnObj;
+    }
+
 }

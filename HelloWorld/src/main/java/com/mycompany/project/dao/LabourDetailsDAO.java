@@ -34,4 +34,8 @@ public interface LabourDetailsDAO {
 
     public JSONArray getAllActiveContractorDetails();
 
+    public JSONObject deleteContractorById(String contractorId);
+
+    public JSONObject addNewContractor(String contractorName);
+
 }

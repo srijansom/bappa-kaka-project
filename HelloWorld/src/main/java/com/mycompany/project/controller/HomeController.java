@@ -46,6 +46,11 @@ public class HomeController {
         return "labour_charge_details";
     }
 
+    @RequestMapping(value = "/ContractorList", method = RequestMethod.GET)
+    public String getContractorListPage(HttpServletRequest request, HttpServletResponse response) {
+        return "contractor_details";
+    }
+
     @RequestMapping(value = "/getlabourWageType", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -111,11 +116,11 @@ public class HomeController {
         return returnObj.toString();
     }
 
-    @RequestMapping(value = "/getAllActiveContractorDetails", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public String getAllActiveContractorDetails() {
-        JSONArray returnArray = labourDetailsManager.getAllActiveContractorDetails();
-        return returnArray.toString();
-    }
+//    @RequestMapping(value = "/getAllActiveContractorDetails", method = RequestMethod.GET, produces = "application/json")
+//    @ResponseBody
+//    @ResponseStatus(HttpStatus.OK)
+//    public String getAllActiveContractorDetails() {
+//        JSONArray returnArray = labourDetailsManager.getAllActiveContractorDetails();
+//        return returnArray.toString();
+//    }
 }

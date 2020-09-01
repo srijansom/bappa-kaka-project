@@ -346,7 +346,7 @@ function getAllActiveContractorDetails() {
 //    alert();
     $.ajax({
         type: "GET",
-        url: 'getAllActiveContractorDetails',
+        url: 'ContractorList/getAllActiveContractorDetails',
         cache: false,
         dataType: "json",
         success: function (data) {

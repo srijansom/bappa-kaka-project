@@ -67,4 +67,12 @@ public class LabourDetailsManagerImpl implements LabourDetailsManager {
         return labourDetailsDAO.getAllActiveContractorDetails();
     }
 
+    public JSONObject deleteContractorById(String contractorId) {
+        return labourDetailsDAO.deleteContractorById(contractorId);
+    }
+
+    public JSONObject addNewContractor(String contractorName) {
+        return labourDetailsDAO.addNewContractor(contractorName);
+    }
+
 }

@@ -37,6 +37,11 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String redirectHomePage(HttpServletRequest request, HttpServletResponse response) {
+        return "redirect:index";
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String loadHomePage(HttpServletRequest request, HttpServletResponse response) {
         return "labour_payment_details";
     }
@@ -116,11 +121,14 @@ public class HomeController {
         return returnObj.toString();
     }
 
-//    @RequestMapping(value = "/getAllActiveContractorDetails", method = RequestMethod.GET, produces = "application/json")
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.OK)
-//    public String getAllActiveContractorDetails() {
-//        JSONArray returnArray = labourDetailsManager.getAllActiveContractorDetails();
-//        return returnArray.toString();
-//    }
+    @RequestMapping(value = "/addNewLabour", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String addNewLabour(
+            @RequestParam String labourName,
+            @RequestParam String contractorId
+    ) {
+        JSONObject returnObj = labourDetailsManager.addNewLabour(labourName, contractorId);
+        return returnObj.toString();
+    }
 }

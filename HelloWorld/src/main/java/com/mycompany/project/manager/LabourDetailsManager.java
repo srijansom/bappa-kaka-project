@@ -38,4 +38,6 @@ public interface LabourDetailsManager {
 
     public JSONObject addNewContractor(String contractorName);
 
+    public JSONObject addNewLabour(String labourName, String contractorId);
+
 }

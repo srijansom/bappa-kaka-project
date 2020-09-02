@@ -38,4 +38,6 @@ public interface LabourDetailsDAO {
 
     public JSONObject addNewContractor(String contractorName);
 
+    public JSONObject addNewLabour(String labourName, String contractorId);
+
 }

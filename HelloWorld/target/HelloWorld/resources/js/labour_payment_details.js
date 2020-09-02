@@ -352,15 +352,29 @@ function getAllActiveContractorDetails() {
         success: function (data) {
 
             $('#selectContractorId').find('option').remove();
-            var wageDropDown = document.getElementById("selectContractorId");
+            var contractorDropDown = document.getElementById("selectContractorId");
             var option1 = document.createElement("option");
             option1.text = "--Select--";
-            wageDropDown.add(option1);
+            contractorDropDown.add(option1);
+            
+            $('#selectContractorForAddLabourId').find('option').remove();
+            var contractorDropDownForAddLabour = document.getElementById("selectContractorForAddLabourId");
+            var option1 = document.createElement("option");
+            option1.text = "--Select--";
+            contractorDropDownForAddLabour.add(option1);
+            
+            
             $.each(data, function (index, value) {
                 var option = document.createElement("option");
                 option.text = value.contractor_name;
                 option.value = value.contractor_id;
-                wageDropDown.add(option);
+                contractorDropDown.add(option);
+                
+                var optionForAddLabour = document.createElement("option");
+                optionForAddLabour.text = value.contractor_name;
+                optionForAddLabour.value = value.contractor_id;
+                contractorDropDownForAddLabour.add(optionForAddLabour);
+                
             });
 
             if (localStorage.getItem("globalContractorId") != undefined && localStorage.getItem("globalContractorId") != null) {
@@ -382,5 +396,30 @@ $(document).ready(function () {
 
 });
 
-
+function addNewLabour(){
+    var addLabourName = document.getElementById("addLabourNameInputId").value;
+    var contractorId = $("#selectContractorForAddLabourId option:selected").val();
+    $.ajax({
+        type: "POST",
+        url: 'addNewLabour',
+        cache: false,
+        data: {
+            labourName: addLabourName,
+            contractorId: contractorId
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.status != undefined && data.status != null && data.status == true) {
+                swal({title: "Success", icon: "success", text: "Done"})
+                        .then(function () {
+                            location.reload();
+                        }
+                        );
+            }
+        },
+        error: function (data) {
+            console.log("Error Happen");
+        }
+    });
+}
 

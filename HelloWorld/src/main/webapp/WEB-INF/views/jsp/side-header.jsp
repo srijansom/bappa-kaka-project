@@ -18,7 +18,7 @@
             <div class="block addNewLabourChargeType" style="display: none" data-toggle="modal" data-target="#addNewLabourCharge">
                 <i class="fa fa-plus-square-o fa-3x"></i>
             </div>
-            <div class="block addNewLabour" style="display: none">
+            <div class="block addNewLabour" style="display: none" data-toggle="modal" data-target="#addNewLabour">
                 <i class="fa fa-user-plus fa-3x"></i>
             </div>
             <div class="block addNewContractor" style="display: none" data-toggle="modal" data-target="#addNewContractor">

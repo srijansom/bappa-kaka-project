@@ -75,4 +75,8 @@ public class LabourDetailsManagerImpl implements LabourDetailsManager {
         return labourDetailsDAO.addNewContractor(contractorName);
     }
 
+    public JSONObject addNewLabour(String labourName, String contractorId) {
+        return labourDetailsDAO.addNewLabour(labourName, contractorId);
+    }
+
 }

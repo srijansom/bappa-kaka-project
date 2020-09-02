@@ -423,4 +423,31 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
+    public JSONObject addNewLabour(String labourName, String contractorId) {
+         Session session = null;
+        JSONObject returnObj = new JSONObject();
+        boolean status = false;
+        try {
+            Registration registration = new Registration();
+            registration.setIsActive("Y");
+            registration.setCreatedDatetime(new Date());
+            registration.setKhoraki(BigDecimal.ZERO);
+            registration.setContractorLookupId(Integer.parseInt(contractorId));
+            registration.setName(labourName);
+            session = hibernateUtil.openSession();
+            session.beginTransaction();
+            session.save(registration);
+            session.getTransaction().commit();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            returnObj.put("status", status);
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnObj;
+    }
+
 }

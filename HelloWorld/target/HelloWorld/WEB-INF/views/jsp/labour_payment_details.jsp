@@ -34,13 +34,37 @@
         <jsp:include page="side-header.jsp"/>
 
         <div class="" style="margin-top: 45px;margin-left: 80px;">
-            
+
             <div class="selectContractorDivClass" style="margin-top: 45px;text-align: center;">
                 <select id="selectContractorId" class="selectContractorClass" onchange="getAllActiveLabourDetailsByContractorId()">
                 </select>
             </div>
             <div id="containerDivId" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
+            </div>
+            <div class="modal fade" id="addNewLabour" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <table class="table table-bordered" id="addNewLabourTable" style="border-collapse: collapse">
+                                <tr>
+                                    <td><label>Labour Name</label></td>
+                                    <td><input type="text" id="addLabourNameInputId"></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Contractor Name</label></td>
+                                    <td><select id="selectContractorForAddLabourId" class="selectContractorForAddLabourClass" onchange="">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="addNewLabour()">Save</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

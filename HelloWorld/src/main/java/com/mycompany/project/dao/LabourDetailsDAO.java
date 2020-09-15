@@ -42,4 +42,6 @@ public interface LabourDetailsDAO {
 
     public JSONObject deleteExistingLabourById(String labourId);
 
+    public JSONArray getIndividualLabourTransactionDetailsByLabourId(String labourId);
+
 }

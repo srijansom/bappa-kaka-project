@@ -477,4 +477,35 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
+    public JSONArray getIndividualLabourTransactionDetailsByLabourId(String labourId) {
+        JSONArray returnArr = new JSONArray();
+        Session session = null;
+        try {
+            session = hibernateUtil.openSession();
+            Criteria cr = session.createCriteria(LabourTransactionDetails.class);
+            cr.addOrder(Order.desc("transactionDateTime"));
+            cr.add(Restrictions.eq("regId", Integer.parseInt(labourId)));
+            List<LabourTransactionDetails> resultList = cr.list();
+            for (LabourTransactionDetails transactionDetails : resultList) {
+                try {
+                    JSONObject tempObj = new JSONObject();
+                    tempObj.put("transactionAmount", transactionDetails.getLabourTransactionAmount());
+                    tempObj.put("transactionDetails", transactionDetails.getLabourTransactionDetails());
+                    tempObj.put("transactionDirection", transactionDetails.getLabourTransactionDirection());
+                    tempObj.put("transactionTime", transactionDetails.getTransactionDateTime().toString());
+                    returnArr.add(tempObj);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnArr;
+    }
+
 }

@@ -42,4 +42,6 @@ public interface LabourDetailsManager {
 
     public JSONObject deleteExistingLabourById(String labourId);
 
+    public JSONArray getIndividualLabourTransactionDetailsByLabourId(String labourId);
+
 }

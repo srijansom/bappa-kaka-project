@@ -66,14 +66,15 @@ function getlabourWageType(dynamicWageDropDownId, dynamicLabourDropDownId) {
 function getLabourRoleBasedOnWageType(dynamicWageDropDownId, dynamicLabourDropDownId) {
     var wageDropDown = document.getElementById(dynamicWageDropDownId);
     var wageTypeId = wageDropDown.options[wageDropDown.selectedIndex].value;
+//    alert(dynamicLabourDropDownId);//labourRoleDropDownId
     if (wageTypeId != undefined && wageTypeId != null && wageTypeId == 2) {
-        $('#dailyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).hide();
-        $('#monthlyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).show();
+        $('#dailyWageDivId' + +dynamicLabourDropDownId.split("labourRoleDropDownId")[1]).hide();
+        $('#monthlyWageDivId' + dynamicLabourDropDownId.split("labourRoleDropDownId")[1]).show();
     }
     if (wageTypeId != undefined && wageTypeId != null && wageTypeId == 1) {
-        $('#monthlyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).hide();
-        $('#dailyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).show();
-        $("#dailyWageDivId" + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).css("display", "flex");
+        $('#monthlyWageDivId' + dynamicLabourDropDownId.split("labourRoleDropDownId")[1]).hide();
+        $('#dailyWageDivId' + dynamicLabourDropDownId.split("labourRoleDropDownId")[1]).show();
+        $("#dailyWageDivId" + dynamicLabourDropDownId.split("labourRoleDropDownId")[1]).css("display", "flex");
     }
 //    alert(wageTypeId);
     $.ajax({
@@ -140,8 +141,7 @@ function view(dynamicWageDropDownId, hiddenDiv) {
     } else if ($("#" + hiddenDiv).css('visibility').toLowerCase() == 'hidden') {
         $("#" + hiddenDiv).css("visibility", "visible");
     }
-//    $("#" + hiddenDiv).toggle();
-    $("#hiddenDivForWithdraw" + hiddenDiv.substring(hiddenDiv.length - 1, hiddenDiv.length)).toggle();
+    $("#hiddenDivForWithdraw" + hiddenDiv.split("hiddenDiv")[1]).toggle();
     getlabourWageType(dynamicWageDropDownId, hiddenDiv);
 }
 var globalContractorId;

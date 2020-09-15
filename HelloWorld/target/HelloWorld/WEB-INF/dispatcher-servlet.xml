@@ -39,6 +39,10 @@
         <property name="labourDetailsManager" ref="labourDetailsManager" />
     </bean>
     
+    <bean id="transactionDetailsController" class="com.mycompany.project.controller.TransactionDetailsController">
+        <property name="labourDetailsManager" ref="labourDetailsManager" />
+    </bean>
+    
     <bean id="labourDetailsManager" class="com.mycompany.project.manager.LabourDetailsManagerImpl">
         <property name="labourDetailsDAO" ref="labourDetailsDAO" />
     </bean>

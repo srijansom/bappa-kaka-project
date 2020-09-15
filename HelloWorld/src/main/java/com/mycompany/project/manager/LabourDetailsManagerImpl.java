@@ -83,4 +83,8 @@ public class LabourDetailsManagerImpl implements LabourDetailsManager {
         return labourDetailsDAO.deleteExistingLabourById(labourId);
     }
 
+    public JSONArray getIndividualLabourTransactionDetailsByLabourId(String labourId) {
+        return labourDetailsDAO.getIndividualLabourTransactionDetailsByLabourId(labourId);
+    }
+
 }

@@ -61,7 +61,7 @@ public class HomeController {
         return "redirect:ContractorList";
     }
 
-    @RequestMapping(value = "/IndividualLabourTransactionDetails", method = RequestMethod.GET)
+    @RequestMapping(value = "/IndividualTransactionDetails", method = RequestMethod.GET)
     public String individualLabourTransactionDetails(HttpServletRequest request, HttpServletResponse response) {
         return "individual_labour_transaction_details";
     }

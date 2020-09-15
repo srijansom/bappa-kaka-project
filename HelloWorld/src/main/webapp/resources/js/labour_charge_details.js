@@ -118,7 +118,7 @@ function saveLabourCharge(selectorId) {
 }
 function addNewLabourCharge() {
 //    alert();
-    var addLabourChargeName = document.getElementById("addLabourNameInputId").value;
+    var addLabourChargeName = document.getElementById("addLabourChargeNameInputId").value;
     var addLabourChargeRate = document.getElementById("addLabourChargeRateInputId").value;
     if (isNaN(addLabourChargeRate)) {
         return;

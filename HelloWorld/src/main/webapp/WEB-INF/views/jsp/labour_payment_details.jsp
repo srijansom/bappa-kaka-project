@@ -9,20 +9,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>-->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
-        <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
-
-
+        <!--Add Jquery 3.5.1 from local-->
+        <script src="resources/Import/Jquery 3.5.1/jquery-3.5.1.min.js" type="text/javascript"></script>
+        
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
+        <!--Add SweetAlert from local-->
+        <script src="resources/Import/SweetAlert/sweetalert.min.js" type="text/javascript"></script>
+        <!--Add Bootstrap from local-->
+        <script src="resources/Import/Bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <link href="resources/Import/Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!--Add FontAwesome from local-->
+        <link href="resources/Import/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <!--Add Jquery UI from local-->
+        <script src="resources/Import/Jquery UI/jquery-ui-1.8.14/ui/minified/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="resources/Import/Jquery UI/jquery-ui-1.8.14/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 
 
         <script src="resources/js/labour_payment_details.js" type="text/javascript"></script>
@@ -39,12 +39,12 @@
                 <select id="selectContractorId" class="selectContractorClass" onchange="getAllActiveLabourDetailsByContractorId()">
                 </select>
                 &nbsp;&nbsp;&nbsp;<a href="/HelloWorld/ContractorList"><i style="cursor: pointer" class="fa fa-external-link" aria-hidden="true">
-                </i></a>
+                    </i></a>
             </div>
             <div id="containerDivId" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             </div>
-            
+
             <div class="modal fade" id="addNewLabour" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="modal fade" id="deleteLabourModalId" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -84,8 +84,8 @@
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
     </body>
 </html>

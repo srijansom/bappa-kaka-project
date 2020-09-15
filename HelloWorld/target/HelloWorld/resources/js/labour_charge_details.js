@@ -24,11 +24,6 @@ function getAllLabourChargeDetails() {
                         + '<span id="deleteLabourChargeId' + value.labour_charge_id + '">' + value.labour_charge_name
                         + '&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="cursor : pointer" onclick="deleteLabourCharge(' + value.labour_charge_id + ')"></i>'
                         + '</span>'
-
-//                        + '<span id="deleteLabourChargeId' + value.labour_charge_id + '">'
-//                        + '&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="cursor : pointer" onclick="editLabourCharge(' + value.labour_charge_id + ')"></i>'
-//                        + value.labour_charge_name +
-////                        + '</span>'
                 '</td>';
                 event_data += '<td>'
                         + '<span id="showLabourChargeId' + value.labour_charge_id + '">' + '\u20B9' + value.labour_charge_amount / 100 + '/ 1000 brick'
@@ -124,7 +119,7 @@ function saveLabourCharge(selectorId) {
 function addNewLabourCharge() {
 //    alert();
     var addLabourChargeName = document.getElementById("addLabourNameInputId").value;
-    var contractorName = document.getElementById("addLabourChargeRateInputId").value;
+    var addLabourChargeRate = document.getElementById("addLabourChargeRateInputId").value;
     if (isNaN(addLabourChargeRate)) {
         return;
     }

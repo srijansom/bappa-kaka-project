@@ -14,7 +14,7 @@ and open the template in the editor.
 
 .labouRoleAndWageSelectorClass{
     position: relative;
-    display: inline-flex;
+    /*display: inline-flex;*/
     visibility: hidden;
 }
 

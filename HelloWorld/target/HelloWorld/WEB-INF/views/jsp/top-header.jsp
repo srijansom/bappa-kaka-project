@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="navbar"></div>
-        <span class="circleBase logoText"><h5><b>BT</b></h5></span>
+        <span class="circleBase logoText"><h5><b></b></h5></span>
         
     </body>
 </html>

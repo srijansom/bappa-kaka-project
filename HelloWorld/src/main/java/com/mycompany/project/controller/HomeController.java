@@ -38,10 +38,10 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String redirectHomePage(HttpServletRequest request, HttpServletResponse response) {
-        return "redirect:index";
+        return "redirect:LabourDetails";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/LabourDetails", method = RequestMethod.GET)
     public String loadHomePage(HttpServletRequest request, HttpServletResponse response) {
         return "labour_payment_details";
     }
@@ -54,6 +54,16 @@ public class HomeController {
     @RequestMapping(value = "/ContractorList", method = RequestMethod.GET)
     public String getContractorListPage(HttpServletRequest request, HttpServletResponse response) {
         return "contractor_details";
+    }
+
+    @RequestMapping(value = "/goToContractorPage", method = RequestMethod.GET)
+    public String goToContractorPage(HttpServletRequest request, HttpServletResponse response) {
+        return "redirect:ContractorList";
+    }
+
+    @RequestMapping(value = "/IndividualLabourTransactionDetails", method = RequestMethod.GET)
+    public String individualLabourTransactionDetails(HttpServletRequest request, HttpServletResponse response) {
+        return "individual_labour_transaction_details";
     }
 
     @RequestMapping(value = "/getlabourWageType", method = RequestMethod.GET, produces = "application/json")
@@ -108,16 +118,17 @@ public class HomeController {
         return returnArray.toString();
     }
 
-    @RequestMapping(value = "/transactionDetails", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/submitTransactionDetails", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public String submitWageDetails(
+    public String submitTransactionDetails(
             @RequestParam String labourId,
             @RequestParam String totalAmount,
             @RequestParam String direction,
-            @RequestParam String details
+            @RequestParam String details,
+            @RequestParam String transactionDate
     ) {
-        JSONObject returnObj = labourDetailsManager.submitWageDetails(labourId, totalAmount, direction, details);
+        JSONObject returnObj = labourDetailsManager.submitTransactionDetails(labourId, totalAmount, direction, details, transactionDate);
         return returnObj.toString();
     }
 
@@ -129,6 +140,16 @@ public class HomeController {
             @RequestParam String contractorId
     ) {
         JSONObject returnObj = labourDetailsManager.addNewLabour(labourName, contractorId);
+        return returnObj.toString();
+    }
+
+    @RequestMapping(value = "/deleteExistingLabourById", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteExistingLabourById(
+            @RequestParam String labourId
+    ) {
+        JSONObject returnObj = labourDetailsManager.deleteExistingLabourById(labourId);
         return returnObj.toString();
     }
 }

@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>-->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
         <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
 
@@ -33,15 +33,18 @@
         <jsp:include page="top-header.jsp"/>
         <jsp:include page="side-header.jsp"/>
 
-        <div class="" style="margin-top: 45px;margin-left: 80px;">
+        <div class="" style="margin-top: 80px;margin-left: 80px;">
 
             <div class="selectContractorDivClass" style="margin-top: 45px;text-align: center;">
                 <select id="selectContractorId" class="selectContractorClass" onchange="getAllActiveLabourDetailsByContractorId()">
                 </select>
+                &nbsp;&nbsp;&nbsp;<a href="/HelloWorld/ContractorList"><i style="cursor: pointer" class="fa fa-external-link" aria-hidden="true">
+                </i></a>
             </div>
             <div id="containerDivId" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             </div>
+            
             <div class="modal fade" id="addNewLabour" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -66,6 +69,23 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="modal fade" id="deleteLabourModalId" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <input type="hidden" id="labourForDeleteId" name="labourForDeleteId">
+                            <h6>Are you want to delete <span id="dynamicLabourNameforDelete"></span> ?</h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteLabourByIdConfirm()">Confirm</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
         </div>
     </body>
 </html>

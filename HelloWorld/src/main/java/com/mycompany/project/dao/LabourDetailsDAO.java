@@ -30,7 +30,7 @@ public interface LabourDetailsDAO {
 
     public JSONObject addNewLabourCharge(String addLabourChargeName, String addLabourChargeRate);
 
-    public JSONObject submitWageDetails(String labourId, String totalDepositAmount, String direction, String details);
+    public JSONObject submitTransactionDetails(String labourId, String totalAmount, String direction, String details, String transactionDate);
 
     public JSONArray getAllActiveContractorDetails();
 
@@ -39,5 +39,7 @@ public interface LabourDetailsDAO {
     public JSONObject addNewContractor(String contractorName);
 
     public JSONObject addNewLabour(String labourName, String contractorId);
+
+    public JSONObject deleteExistingLabourById(String labourId);
 
 }

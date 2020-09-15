@@ -73,7 +73,7 @@ function getLabourRoleBasedOnWageType(dynamicWageDropDownId, dynamicLabourDropDo
     if (wageTypeId != undefined && wageTypeId != null && wageTypeId == 1) {
         $('#monthlyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).hide();
         $('#dailyWageDivId' + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).show();
-        $("#dailyWageDivId" + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).css("display", "inherit");
+        $("#dailyWageDivId" + dynamicLabourDropDownId.substring(dynamicLabourDropDownId.length - 1, dynamicLabourDropDownId.length)).css("display", "flex");
     }
 //    alert(wageTypeId);
     $.ajax({
@@ -165,7 +165,7 @@ function getAllActiveLabourDetailsByContractorId() {
                 var dynamic_div = "<div class='dyanmicLabourClass' id='dyanmicLabourID" + value.labour_id + "'>";
                 dynamic_div += '<span>Name : </span>&nbsp;'
                 dynamic_div += '<span><b>' + value.labour_name + '</b>&nbsp;&nbsp;<i style="cursor: pointer;" class="fa fa-pencil-square-o" aria-hidden="true" onclick="view(' + "'" + "wageDropDownId" + value.labour_id + "'" + ',' + "'"
-                        + "hiddenDiv" + value.labour_id + "'" + ')"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                        + "hiddenDiv" + value.labour_id + "'" + ')"></i>&nbsp;&nbsp;<i style="cursor: pointer;" class="fa fa-trash" aria-hidden="true" onclick="deleteLabourById(' + value.labour_id + ",'" + value.labour_name + "'" + ')"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 dynamic_div += '<span>Khoraki : </span>&nbsp;'
                 dynamic_div += '<span>&#8377;' + value.labour_khoraki + '</span><br><br>';
                 dynamic_div += "</div>";
@@ -173,6 +173,7 @@ function getAllActiveLabourDetailsByContractorId() {
 
                 var dynamic_hidden_div_for_withdraw = '<div id="hiddenDivForWithdraw' + value.labour_id + '" class="hiddenDivForWithdrawClass" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><b>Withdraw : </b>'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class"cssDiv withDrawMoneyClass" id="withDrawMoneyId' + value.labour_id + '" type="number" value="0">'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="datePickerIdForWithDrawMoney' + value.labour_id + '">'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="withDrawMoneyButton" onclick="withDrawMoney(' + value.labour_id + ')">Submit</button></div>';
 
                 var wageDropDown = '<b>Deposit :</b> <select class="selectOptionBox cssDiv" id="wageDropDownId'
@@ -191,7 +192,7 @@ function getAllActiveLabourDetailsByContractorId() {
                         + "'labourChargeDetailsDropDownId" + value.labour_id + "','labourChargeAmountSpanId" + value.labour_id + "'" + ')">'
                         + ' <option>--Select--</option>'
                         + '</select>'
-                        + '</td><td><span id="labourChargeAmountSpanId' + value.labour_id + '"></span></td></tr></tbody></table>';
+                        + '</td><td><span id="labourChargeAmountSpanId' + value.labour_id + '"></span><a href="/HelloWorld/LabourCharge"><i style="cursor: pointer" class="fa fa-external-link" aria-hidden="true"></i></a></td></tr></tbody></table>';
 
                 var dyanmicLabourID = "dyanmicLabourID" + value.labour_id;
                 var hiddenDivId = "hiddenDiv" + value.labour_id;
@@ -212,8 +213,9 @@ function getAllActiveLabourDetailsByContractorId() {
 
                 var dailyWageDivId = "dailyWageDivId" + value.labour_id;
                 $('#' + dailyWageDivId).append(labourChargeDetailsWithDropDown);
-                var dailyWageSubmitDiv = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                        + '<input class"cssDiv dailyWageSubmitDivClass" id="dailyWageSubmitDivId' + value.labour_id + '" type="number" value="0" onkeyup="calculateTotalDailyWage(' + value.labour_id + ')">'
+                var dailyWageSubmitDiv = '&nbsp;&nbsp;'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="datePickerIdForDailyWageSubmit' + value.labour_id + '">'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;<input class"cssDiv dailyWageSubmitDivClass" id="dailyWageSubmitDivId' + value.labour_id + '" type="number" value="0" onkeyup="calculateTotalDailyWage(' + value.labour_id + ')">'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="wageDetailsSubmitButton" onclick="submitDailyWageDetails(' + value.labour_id + ')">Submit</button>'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="showTotalDepositAmountForDailyWageSpan' + value.labour_id + '"></span>';
                 $('#' + dailyWageDivId).append(dailyWageSubmitDiv);
@@ -221,7 +223,9 @@ function getAllActiveLabourDetailsByContractorId() {
                 var monthlyWageDivId = "monthlyWageDivId" + value.labour_id;
 //                $('#' + monthlyWageDivId).append(labourChargeDetailsWithDropDown);
                 var monthlyWageSubmitDiv = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                        + '<input class"cssDiv monthlyWageSubmitDivClass" id="monthlyWageSubmitDivId' + value.labour_id + '" type="number" value="0">'
+                        + '<span>Monthly Wage : </span><input class"cssDiv monthlyWageSubmitDivClass" id="monthlyWageSubmitDivId' + value.labour_id + '" type="number" value="0">'
+                        + '&nbsp;&nbsp;<span>Working Day : </span><input class"cssDiv monthlyWageSubmitDivClass" id="monthlyWageWorkingDaySubmitDivId' + value.labour_id + '" type="number" value="0">'
+                        + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="datePickerIdForMonthlyWageSubmit' + value.labour_id + '">'
                         + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="wageDetailsSubmitButton" onclick="submitMonthlyWageDetails(' + value.labour_id + ')">Submit</button>';
                 $('#' + monthlyWageDivId).append(monthlyWageSubmitDiv);
 
@@ -234,21 +238,70 @@ function getAllActiveLabourDetailsByContractorId() {
     });
 }
 
+function goToContractorPage() {
+//    $.ajax({
+//        type: "GET",
+//        url: 'goToContractorPage',
+//        cache: false,
+////        success: function (data) {
+////        },
+//        error: function (data) {
+//            console.log("Error Happen");
+//        }
+//    });
+}
+function deleteLabourByIdConfirm() {
+    var labourIdForDelete = document.getElementById("labourForDeleteId").value;
+//    alert(labourIdForDelete);
+    $.ajax({
+        type: "POST",
+        url: 'deleteExistingLabourById',
+        cache: false,
+        data: {
+            labourId: labourIdForDelete
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.status != undefined && data.status != null && data.status == true) {
+                swal({title: "Success", icon: "success", text: "Done"})
+                        .then(function () {
+                            location.reload();
+                        }
+                        );
+            }
+        },
+        error: function (data) {
+            console.log("Error Happen");
+        }
+    });
+}
+function deleteLabourById(dynamicId, labourName) {
+//    alert(dynamicId);
+//    alert(labourName);
+    $("#labourForDeleteId").val(dynamicId);
+    $("#dynamicLabourNameforDelete").empty();
+    $("#dynamicLabourNameforDelete").text(labourName);
+    $('#deleteLabourModalId').modal('show');
+}
 function withDrawMoney(dynamicId) {
     var labourId = dynamicId;
     var direction = "Withdraw";
     var details = "Money has been withdrawed";
     var withdrawAmount = document.getElementById("withDrawMoneyId" + dynamicId).value;
+    var withdrawDate = document.getElementById("datePickerIdForWithDrawMoney" + dynamicId).value;
+//    alert(withdrawDate);
+//    return;
     $.ajax({
         type: "POST",
-        url: 'transactionDetails',
+        url: 'submitTransactionDetails',
         cache: false,
         dataType: "json",
         data: {
             labourId: labourId,
             totalAmount: withdrawAmount,
             direction: direction,
-            details: details
+            details: details,
+            transactionDate: withdrawDate
         },
         success: function (data) {
             if (data.status != undefined && data.status != null && data.status == true) {
@@ -277,21 +330,25 @@ function calculateTotalDailyWage(dynamicId) {
 }
 function submitMonthlyWageDetails(dynamicId) {
     var labourId = dynamicId;
-    var totalDepositAmount = document.getElementById("monthlyWageSubmitDivId" + dynamicId).value;
+    var monthlyWageAmount = document.getElementById("monthlyWageSubmitDivId" + dynamicId).value;
+    var totalWorkingDay = document.getElementById("monthlyWageWorkingDaySubmitDivId" + dynamicId).value;
+    var totalDepositAmount = (monthlyWageAmount / 30) * totalWorkingDay;
+    var monthlyWageSubmitDate = document.getElementById("datePickerIdForMonthlyWageSubmit" + dynamicId).value;
     var labourRoleName = $("#labourRoleDropDownId" + dynamicId + " option:selected").html();
     var direction = "Deposit";
     var details = "Monthly wage for " + labourRoleName;
 //    alert(totalDepositAmount);
     $.ajax({
         type: "POST",
-        url: 'transactionDetails',
+        url: 'submitTransactionDetails',
         cache: false,
         dataType: "json",
         data: {
             labourId: labourId,
             totalAmount: totalDepositAmount,
             direction: direction,
-            details: details
+            details: details,
+            transactionDate: monthlyWageSubmitDate
         },
         success: function (data) {
             if (data.status != undefined && data.status != null && data.status == true) {
@@ -309,24 +366,28 @@ function submitMonthlyWageDetails(dynamicId) {
 }
 function submitDailyWageDetails(dynamicId) {
     var labourId = dynamicId;
+    var dailyWageSubmitDate = document.getElementById("datePickerIdForDailyWageSubmit" + dynamicId).value;
     var dailyWageAmount = document.getElementById("dailyWageSubmitDivId" + dynamicId).value;
     var labourChargeDropDown = document.getElementById("labourChargeDetailsDropDownId" + dynamicId);
     var labourChargeId = labourChargeDropDown.options[labourChargeDropDown.selectedIndex].value;
     var labourChargeAmountObj = JSON.parse(localStorage.getItem("labourChargeAmountObj"));
     var rate = labourChargeAmountObj[labourChargeId] / 100;
     var totalDepositAmount = (dailyWageAmount / 1000) * rate;
+    var labourRole = $("#labourRoleDropDownId" + dynamicId + " option:selected").html();
+    var workType = $("#labourChargeDetailsDropDownId" + dynamicId + " option:selected").html();
     var direction = "Deposit";
-    var details = "daily wage details";
+    var details = "Daily wage details for " + labourRole + " and " + workType + " for " + dailyWageAmount + " pieces";
     $.ajax({
         type: "POST",
-        url: 'transactionDetails',
+        url: 'submitTransactionDetails',
         cache: false,
         dataType: "json",
         data: {
             labourId: labourId,
             totalAmount: totalDepositAmount,
             direction: direction,
-            details: details
+            details: details,
+            transactionDate: dailyWageSubmitDate
         },
         success: function (data) {
             if (data.status != undefined && data.status != null && data.status == true) {
@@ -356,25 +417,25 @@ function getAllActiveContractorDetails() {
             var option1 = document.createElement("option");
             option1.text = "--Select--";
             contractorDropDown.add(option1);
-            
+
             $('#selectContractorForAddLabourId').find('option').remove();
             var contractorDropDownForAddLabour = document.getElementById("selectContractorForAddLabourId");
             var option1 = document.createElement("option");
             option1.text = "--Select--";
             contractorDropDownForAddLabour.add(option1);
-            
-            
+
+
             $.each(data, function (index, value) {
                 var option = document.createElement("option");
                 option.text = value.contractor_name;
                 option.value = value.contractor_id;
                 contractorDropDown.add(option);
-                
+
                 var optionForAddLabour = document.createElement("option");
                 optionForAddLabour.text = value.contractor_name;
                 optionForAddLabour.value = value.contractor_id;
                 contractorDropDownForAddLabour.add(optionForAddLabour);
-                
+
             });
 
             if (localStorage.getItem("globalContractorId") != undefined && localStorage.getItem("globalContractorId") != null) {
@@ -396,7 +457,7 @@ $(document).ready(function () {
 
 });
 
-function addNewLabour(){
+function addNewLabour() {
     var addLabourName = document.getElementById("addLabourNameInputId").value;
     var contractorId = $("#selectContractorForAddLabourId option:selected").val();
     $.ajax({

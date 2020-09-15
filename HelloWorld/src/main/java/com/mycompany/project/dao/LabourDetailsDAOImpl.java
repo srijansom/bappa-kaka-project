@@ -13,6 +13,7 @@ import com.mycompany.project.pojo.LabourWageTypeLookup;
 import com.mycompany.project.pojo.Registration;
 import com.mycompany.project.util.HibernateUtil;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -266,22 +267,23 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
-    public JSONObject submitWageDetails(String labourId, String totalDepositAmount, String direction, String details) {
+    public JSONObject submitTransactionDetails(String labourId, String totalAmount, String direction, String details, String transactionDate) {
         Session session = null;
         JSONObject returnObj = new JSONObject();
         boolean status = false;
         try {
             LabourTransactionDetails labourTransactionDetails = new LabourTransactionDetails();
-            labourTransactionDetails.setTransactionDateTime(new Date());
+            Date transactionDateTime = new SimpleDateFormat("yyyy-MM-dd").parse(transactionDate);
+            labourTransactionDetails.setTransactionDateTime(transactionDateTime);
             labourTransactionDetails.setRegId(Integer.parseInt(labourId));
-            labourTransactionDetails.setLabourTransactionAmount(new BigDecimal(totalDepositAmount));
+            labourTransactionDetails.setLabourTransactionAmount(new BigDecimal(totalAmount));
             labourTransactionDetails.setLabourTransactionDirection(direction);
             labourTransactionDetails.setLabourTransactionDetails(details);
             session = hibernateUtil.openSession();
             session.beginTransaction();
             session.save(labourTransactionDetails);
             session.getTransaction().commit();
-            status = updateKhorakiDeatils(labourId, totalDepositAmount, direction);
+            status = updateKhorakiDeatils(labourId, totalAmount, direction);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -293,7 +295,7 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
         return returnObj;
     }
 
-    public boolean updateKhorakiDeatils(String labourId, String totalDepositAmount, String direction) {
+    public boolean updateKhorakiDeatils(String labourId, String totalAmount, String direction) {
         boolean status = false;
         Session session = null;
         try {
@@ -302,11 +304,11 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
             if (regObj != null) {
                 if (direction != null && !direction.trim().equals("")) {
                     if (direction.equalsIgnoreCase("Deposit")) {
-                        regObj.setKhoraki(regObj.getKhoraki().add(new BigDecimal(totalDepositAmount)));
+                        regObj.setKhoraki(regObj.getKhoraki().add(new BigDecimal(totalAmount)));
                         status = true;
                     } else if (direction.equalsIgnoreCase("Withdraw")) {
-                        if (regObj.getKhoraki().compareTo(new BigDecimal(totalDepositAmount)) >= 0) {
-                            regObj.setKhoraki(regObj.getKhoraki().subtract(new BigDecimal(totalDepositAmount)));
+                        if (regObj.getKhoraki().compareTo(new BigDecimal(totalAmount)) >= 0) {
+                            regObj.setKhoraki(regObj.getKhoraki().subtract(new BigDecimal(totalAmount)));
                             status = true;
                         }
                     }
@@ -424,7 +426,7 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
     }
 
     public JSONObject addNewLabour(String labourName, String contractorId) {
-         Session session = null;
+        Session session = null;
         JSONObject returnObj = new JSONObject();
         boolean status = false;
         try {
@@ -438,6 +440,31 @@ public class LabourDetailsDAOImpl implements LabourDetailsDAO {
             session.beginTransaction();
             session.save(registration);
             session.getTransaction().commit();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            returnObj.put("status", status);
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return returnObj;
+    }
+
+    public JSONObject deleteExistingLabourById(String labourId) {
+        Session session = null;
+        JSONObject returnObj = new JSONObject();
+        boolean status = false;
+        try {
+            session = hibernateUtil.openSession();
+            Transaction tx = session.beginTransaction();
+            String hql = "update Registration registration set registration.isActive= 'N' "
+                    + "where registration.regId= :labourId";
+            session.createQuery(hql)
+                    .setInteger("labourId", Integer.parseInt(labourId))
+                    .executeUpdate();
+            tx.commit();
             status = true;
         } catch (Exception e) {
             e.printStackTrace();
